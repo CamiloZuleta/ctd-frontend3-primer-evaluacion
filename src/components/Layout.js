@@ -20,16 +20,22 @@ export default class Layout extends React.Component {
 
     }
     onSelectOption = (option) => {
-        this.setState({option:option});
-        this.setState({histOptions:[option,...this.state.histOptions]});
-        this.setState({ counter: this.state.counter + 1 }); 
-        const key = (this.state.counter+1) + option.toLowerCase();
-        const val = this.searchOnData(key);
-        this.setState({key:val});
+        
+
+        this.setState(
+            (anterior)=>{
+                return {
+                    option,
+                    key:this.searchOnData((anterior.counter+1) + option.toLowerCase()),
+                    counter: anterior.counter+1,
+                    histOptions: [option, ...anterior.histOptions]
+                }
+            }
+        )
+
     }
     
     shouldComponentUpdate(){
-
         if(this.state.counter<=4){
             return true;
         }else{
